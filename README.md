@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pinguim Crédito - Simulação Online</title>
+    <style>
+        :root { --primary: #002d5b; --accent: #d32f2f; --bg: #f8f9fa; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); color: #333; }
+        header { background: var(--primary); color: white; padding: 2rem 1rem; text-align: center; }
+        .container { max-width: 500px; margin: -30px auto 40px; padding: 25px; background: white; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
+        .resultado-box { background: #fff5f5; padding: 20px; border-radius: 10px; border: 1px solid #feb2b2; margin-top: 20px; text-align: center; }
+        .valor-parcela { font-size: 1.8rem; color: var(--accent); font-weight: bold; margin: 10px 0; }
+        .btn-solicitar { background: #28a745; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 20px; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Pinguim Crédito</h1>
+    <p>Simulação com Juro Fixo de 40%</p>
+</header>
+<div class="container">
+    <div class="form-group">
+        <label>Quanto você precisa?</label>
+        <input type="number" id="valor" placeholder="Ex: 1000" oninput="calcular()">
+    </div>
+    <div class="form-group">
+        <label>Em quantas vezes?</label>
+        <select id="meses" onchange="calcular()">
+            <option value="1">1x (30 dias)</option>
+            <option value="2">2 meses</option>
+            <option value="3">3 meses</option>
+            <option value="4">4 meses</option>
+            <option value="6">6 meses</option>
+        </select>
+    </div>
+    <div class="resultado-box">
+        <p style="margin:0;">Valor da parcela:</p>
+        <div class="valor-parcela" id="res-parcela">R$ 0,00</div>
+        <p>Total a pagar: <strong id="res-total">R$ 0,00</strong></p>
+    </div>
+    <button class="btn-solicitar" onclick="enviarWhatsApp()">Solicitar via WhatsApp</button>
+</div>
+<script>
+    const TAXA_FIXA = 0.40; 
+    const SEU_WHATSAPP = "5515996067098"; 
+
+    function calcular() {
+        const principal = parseFloat(document.getElementById('valor').value) || 0;
+        const n = parseInt(document.getElementById('meses').value);
+        if (principal <= 0) return;
+        const totalPagar = principal * (1 + TAXA_FIXA);
+        const valorParcela = totalPagar / n;
+        document.getElementById('res-parcela').innerText = valorParcela.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+        document.getElementById('res-total').innerText = totalPagar.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+    }
+    function enviarWhatsApp() {
+        const v = document.getElementById('valor').value;
+        const m = document.getElementById('meses').value;
+        const t = document.getElementById('res-total').innerText;
+        const p = document.getElementById('res-parcela').innerText;
+        if(!v) return alert("Digite o valor!");
+        const msg = `🚀 *SIMULAÇÃO PINGUIM CRÉDITO*%0A%0A*Valor:* R$ ${v}%0A*Parcelas:* ${m}x de ${p}%0A*Total:* ${t}`;
+        window.open(`https://wa.me/${SEU_WHATSAPP}?text=${msg}`, '_blank');
+    }
+</script>
+</body>
+</html>
