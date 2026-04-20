@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pinguim Crédito - Simulação Online</title>
     <style>
-        :root { --primary: #002d5b; --accent: #28a745; --bg: #f8f9fa; }
+        :root { --primary: #002d5b; --accent: #d32f2f; --bg: #f8f9fa; }
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); color: #333; }
         header { background: var(--primary); color: white; padding: 2.5rem 1rem; text-align: center; }
         .container { max-width: 500px; margin: -40px auto 40px; padding: 25px; background: white; border-radius: 15px; box-shadow: 0 12px 30px rgba(0,0,0,0.15); }
         .form-group { margin-bottom: 20px; }
         label { display: block; margin-bottom: 8px; font-weight: 600; color: #444; }
         input, select { width: 100%; padding: 14px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; box-sizing: border-box; }
-        .resultado-box { background: #f0fdf4; padding: 20px; border-radius: 10px; border: 1px solid #bbf7d0; margin-top: 25px; text-align: center; }
+        .resultado-box { background: #fff5f5; padding: 20px; border-radius: 10px; border: 1px solid #feb2b2; margin-top: 25px; text-align: center; }
         .valor-parcela { font-size: 2rem; color: var(--accent); font-weight: bold; margin: 10px 0; }
-        .btn-solicitar { background: var(--accent); color: white; border: none; padding: 18px; width: 100%; border-radius: 10px; font-size: 1.2rem; font-weight: bold; cursor: pointer; margin-top: 20px; transition: 0.3s; }
+        .btn-solicitar { background: #28a745; color: white; border: none; padding: 18px; width: 100%; border-radius: 10px; font-size: 1.2rem; font-weight: bold; cursor: pointer; margin-top: 20px; transition: 0.3s; }
         .btn-solicitar:hover { background: #218838; }
         .info-legal { font-size: 0.75rem; color: #888; text-align: center; margin-top: 15px; line-height: 1.4; }
     </style>
@@ -23,7 +23,7 @@
 
 <header>
     <h1>Pinguim Crédito</h1>
-    <p>Dinheiro na mão de forma justa e rápida</p>
+    <p>Simule seu empréstimo de forma rápida e segura</p>
 </header>
 
 <div class="container">
@@ -36,9 +36,11 @@
         <label>Em quantas parcelas?</label>
         <select id="meses" onchange="calcular()">
             <option value="1">1x (30 dias)</option>
+            <option value="2">2 meses</option>
             <option value="3">3 meses</option>
+            <option value="4">4 meses</option>
+            <option value="5">5 meses</option>
             <option value="6">6 meses</option>
-            <option value="12">12 meses</option>
         </select>
     </div>
 
@@ -48,18 +50,18 @@
         <p style="margin:0; font-size: 0.9rem;">Total a pagar: <strong id="res-total">R$ 0,00</strong></p>
     </div>
 
-    <button class="btn-solicitar" onclick="enviarWhatsApp()">Solicitar Empréstimo</button>
+    <button class="btn-solicitar" onclick="enviarWhatsApp()">Solicitar via WhatsApp</button>
 
     <div class="info-legal">
-        * Taxa de juros de 3.5% ao mês. Sujeito a análise. <br>
-        Empréstimos realizados dentro das normas vigentes.
+        * Simulação com taxa fixa de 40%. <br>
+        Liberação sujeita a análise de perfil.
     </div>
 </div>
 
 <script>
     // --- CONFIGURAÇÃO ---
-    const TAXA_JUROS = 0.035; // 3.5% ao mês
-    const SEU_WHATSAPP = "5515996067098"; // 
+    const TAXA_FIXA = 40%; // 40% de juro sobre o valor total
+    const SEU_WHATSAPP = "5515996067098"; // COLOQUE SEU NÚMERO AQUI (55 + DDD + NÚMERO)
 
     function calcular() {
         const principal = parseFloat(document.getElementById('valor').value) || 0;
@@ -67,9 +69,8 @@
         
         if (principal <= 0) return;
 
-        // Cálculo de juros simples para facilitar o entendimento do cliente
-        const totalJuros = principal * TAXA_JUROS * n;
-        const totalPagar = principal + totalJuros;
+        // Cálculo: Valor solicitado + 40% de juro fixo
+        const totalPagar = principal * (1 + TAXA_FIXA);
         const valorParcela = totalPagar / n;
 
         document.getElementById('res-parcela').innerText = valorParcela.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
@@ -82,14 +83,14 @@
         const total = document.getElementById('res-total').innerText;
         const parcela = document.getElementById('res-parcela').innerText;
 
-        if(!valor) { alert("Digite um valor!"); return; }
+        if(!valor) { alert("Por favor, digite um valor."); return; }
 
-        const mensagem = `Olá! Fiz uma simulação de empréstimo:%0A%0A` +
-                         `*Valor solicitado:* R$ ${valor}%0A` +
-                         `*Parcelas:* ${meses}x%0A` +
-                         `*Valor da parcela:* ${parcela}%0A` +
-                         `*Total final:* ${total}%0A%0A` +
-                         `Gostaria de saber como prosseguir com a contratação.`;
+        const mensagem = `🚀 *NOVA SOLICITAÇÃO - PINGUIM CRÉDITO*%0A%0A` +
+                         `*Valor:* R$ ${valor}%0A` +
+                         `*Parcelado em:* ${meses}x%0A` +
+                         `*Valor da Parcela:* ${parcela}%0A` +
+                         `*Total com Juros (40%):* ${total}%0A%0A` +
+                         `Gostaria de iniciar o processo de aprovação.`;
 
         window.open(`https://wa.me/${SEU_WHATSAPP}?text=${mensagem}`, '_blank');
     }
