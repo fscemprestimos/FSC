@@ -3,119 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FSC Empréstimos - Especialista em Sorocaba</title>
+    <title>FSC - Empréstimos e Compra de Ouro</title>
     <style>
-        /* CORES PRETO E DOURADO */
-        :root { 
-            --gold: #D4AF37; /* Dourado Metálico */
-            --dark-gold: #B8860B; 
-            --black: #000000; 
-            --dark-gray: #1a1a1a;
-            --text-light: #ffffff; 
+        /* Estilos Gerais */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f0f0f; /* Fundo escuro para destacar o dourado */
+            color: #ffffff;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
         }
 
-        body { 
-            font-family: 'Segoe UI', Roboto, sans-serif; 
-            margin: 0; 
-            background: var(--black); 
-            color: var(--text-light); 
-        }
-
-        header { 
-            background: var(--black); 
-            border-bottom: 2px solid var(--gold);
-            color: var(--gold); 
-            padding: 3rem 1rem; 
-            text-align: center; 
-        }
-
-        h1 { margin: 0; font-size: 2.5rem; text-transform: uppercase; letter-spacing: 2px; }
-        header p { color: var(--text-light); font-weight: 300; margin-top: 10px; }
-
-        .container { max-width: 500px; margin: 20px auto; padding: 15px; }
-
-        .card { 
-            background: var(--dark-gray); 
-            border: 1px solid #333;
-            border-radius: 12px; 
-            padding: 20px; 
-            margin-bottom: 20px; 
-            transition: transform 0.3s;
-        }
-
-        .card:hover { border-color: var(--gold); }
-
-        h3 { color: var(--gold); margin-top: 0; }
-        p { color: #ccc; font-size: 0.95rem; }
-
-        .btn { 
-            display: block; 
-            background: linear-gradient(135deg, var(--gold), var(--dark-gold)); 
-            color: var(--black); 
-            text-decoration: none; 
-            text-align: center; 
-            padding: 14px; 
-            border-radius: 6px; 
-            font-weight: bold; 
-            margin-top: 15px;
+        /* Efeito Dourado 3D em Alto Relievo */
+        .gold-3d-relief {
+            background: linear-gradient(145deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            color: #2a1e00;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
             text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            
+            /* Sombra externa para dar altura (Efeito 3D) */
+            box-shadow: 
+                0 8px 0 #805d15, /* Profundidade do botão */
+                0 15px 20px rgba(0, 0, 0, 0.5); /* Sombra projetada no chão */
+            
+            transition: all 0.1s ease;
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 20px;
+            text-decoration: none;
         }
 
-        .destaque { border: 2px solid var(--gold); }
+        /* Efeito de Clique (O botão "baixa" ao ser pressionado) */
+        .gold-3d-relief:active {
+            box-shadow: 
+                0 2px 0 #805d15, 
+                0 5px 10px rgba(0, 0, 0, 0.5);
+            transform: translateY(6px);
+        }
 
-        .confianca { 
-            text-align: center; 
-            font-size: 0.85rem; 
-            color: var(--gold); 
-            margin-top: 30px; 
-            opacity: 0.8;
+        h1.gold-3d-relief {
+            background: none;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-image: linear-gradient(145deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            box-shadow: none;
+            filter: drop-shadow(0 4px 3px rgba(0,0,0,0.8));
+            font-size: 3rem;
+            text-align: center;
+        }
+
+        /* Container do Simulador */
+        .container {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid #b38728;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(179, 135, 40, 0.2);
+        }
+
+        input {
+            width: 90%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #b38728;
+            background: #222;
+            color: gold;
+            font-size: 1.1rem;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #fcf6ba;
         }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>FSC Empréstimos</h1>
-    <p>Simulação rápida, segura e em Sorocaba</p>
-</header>
+    <h1 class="gold-3d-relief">FSC EMPRÉSTIMOS</h1>
+    <p style="color: #aaa; margin-bottom: 30px;">A maior financeira de Sorocaba e região</p>
 
-<div class="container">
-    <h2 style="text-align: center; color: var(--gold); margin-bottom: 30px;">🏆 Soluções de Elite para Você</h2>
+    <div class="container">
+        <h2 style="color: #fcf6ba;">Simulador de Empréstimo</h2>
+        <p>Taxa Fixa: 40%</p>
+        
+        <input type="number" id="valor" placeholder="Quanto você precisa? (R$)">
+        <button class="gold-3d-relief" onclick="calcular()">Calcular Agora</button>
 
-    <div class="card destaque">
-        <h3>1. Antecipação do FGTS</h3>
-        <p>Receba seu dinheiro hoje mesmo. Sem boletos mensais e com a melhor taxa da região.</p>
-        <a href="https://wa.me/5515996067098?text=Olá!+Vim+pelo+site+e+quero+simular+a+antecipação+do+meu+FGTS." class="btn">Simular Agora</a>
+        <div class="result" id="resultado"></div>
     </div>
 
-    <div class="card">
-        <h3>2. Crédito Pessoal Online</h3>
-        <p>Dinheiro rápido para quem precisa de agilidade e transparência total.</p>
-        <a href="https://wa.me/5515996067098?text=Olá!+Quero+saber+mais+sobre+o+Crédito+Pessoal+Online." class="btn">Saber Mais</a>
+    <div style="margin-top: 40px; text-align: center;">
+        <h2 class="gold-3d-relief" style="font-size: 1.5rem;">Compro Ouro</h2>
+        <p>Pagamos o melhor valor do grama em Sorocaba.</p>
     </div>
 
-    <div class="card">
-        <h3>3. Empréstimo Consignado</h3>
-        <p>Especial para aposentados, pensionistas e servidores de Sorocaba.</p>
-        <a href="https://wa.me/5515996067098?text=Olá!+Gostaria+de+consultar+as+taxas+do+Empréstimo+Consignado." class="btn">Consultar Taxas</a>
-    </div>
-
-    <div class="card">
-        <h3>4. Financiamento de Veículos</h3>
-        <p>Aprovação facilitada para o seu carro novo ou de leilão.</p>
-        <a href="https://wa.me/5515996067098?text=Olá!+Tenho+interesse+no+financiamento+de+veículos." class="btn">Ver Opções</a>
-    </div>
-
-    <div class="card">
-        <h3>5. Crédito para MEI</h3>
-        <p>Impulsione o seu negócio local com capital de giro imediato.</p>
-        <a href="https://wa.me/5515996067098?text=Olá!+Sou+MEI+e+preciso+de+crédito+para+minha+empresa." class="btn">Pedir Crédito</a>
-    </div>
-
-    <div class="confianca">
-        🔒 Consultoria Premium | 📍 Atendimento em Sorocaba-SP
-    </div>
-</div>
+    <script>
+        function calcular() {
+            const valor = document.getElementById('valor').value;
+            const resultadoDiv = document.getElementById('resultado');
+            
+            if(valor > 0) {
+                const total = valor * 1.40;
+                resultadoDiv.innerHTML = `
+                    <hr style="border: 0.5px solid #333">
+                    <p>Total a pagar: <strong>R$ ${total.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</strong></p>
+                    <p><small>*Sujeito a análise de crédito.</small></p>
+                `;
+            } else {
+                resultadoDiv.innerHTML = "Por favor, digite um valor válido.";
+            }
+        }
+    </script>
 
 </body>
 </html>
