@@ -3,130 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FSC - Empréstimos e Compra de Ouro</title>
+    <title>Simulador de Empréstimo</title>
     <style>
-        /* Estilos Gerais */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #0f0f0f; /* Fundo escuro para destacar o dourado */
-            color: #ffffff;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
-
-        /* Efeito Dourado 3D em Alto Relievo */
-        .gold-3d-relief {
-            background: linear-gradient(145deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
-            color: #2a1e00;
-            border: none;
-            border-radius: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            
-            /* Sombra externa para dar altura (Efeito 3D) */
-            box-shadow: 
-                0 8px 0 #805d15, /* Profundidade do botão */
-                0 15px 20px rgba(0, 0, 0, 0.5); /* Sombra projetada no chão */
-            
-            transition: all 0.1s ease;
-            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
-            display: inline-block;
-            padding: 15px 30px;
-            margin: 20px;
-            text-decoration: none;
-        }
-
-        /* Efeito de Clique (O botão "baixa" ao ser pressionado) */
-        .gold-3d-relief:active {
-            box-shadow: 
-                0 2px 0 #805d15, 
-                0 5px 10px rgba(0, 0, 0, 0.5);
-            transform: translateY(6px);
-        }
-
-        h1.gold-3d-relief {
-            background: none;
-            color: transparent;
-            -webkit-background-clip: text;
-            background-image: linear-gradient(145deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
-            box-shadow: none;
-            filter: drop-shadow(0 4px 3px rgba(0,0,0,0.8));
-            font-size: 3rem;
-            text-align: center;
-        }
-
-        /* Container do Simulador */
-        .container {
-            background: #1a1a1a;
-            padding: 30px;
-            border-radius: 20px;
-            border: 2px solid #b38728;
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 0 30px rgba(179, 135, 40, 0.2);
-        }
-
-        input {
-            width: 90%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 8px;
-            border: 1px solid #b38728;
-            background: #222;
-            color: gold;
-            font-size: 1.1rem;
-        }
-
-        .result {
-            margin-top: 20px;
-            font-size: 1.2rem;
-            color: #fcf6ba;
-        }
+        body { font-family: sans-serif; display: flex; justify-content: center; padding: 20px; background-color: #f4f4f9; }
+        .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        h2 { color: #333; text-align: center; }
+        label { display: block; margin-top: 10px; color: #666; }
+        input { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background-color: #25d366; color: white; border: none; border-radius: 4px; margin-top: 20px; cursor: pointer; font-weight: bold; font-size: 16px; }
+        button:hover { background-color: #128c7e; }
+        .resultado { margin-top: 20px; padding: 15px; background: #e7f3ef; border-radius: 4px; display: none; }
     </style>
 </head>
 <body>
 
-    <h1 class="gold-3d-relief">FSC EMPRÉSTIMOS</h1>
-    <p style="color: #aaa; margin-bottom: 30px;">A maior financeira de Sorocaba e região</p>
+<div class="container">
+    <h2>Simular Empréstimo</h2>
+    
+    <label for="valor">Valor solicitado (R$):</label>
+    <input type="number" id="valor" placeholder="Ex: 1000">
 
-    <div class="container">
-        <h2 style="color: #fcf6ba;">Simulador de Empréstimo</h2>
-        <p>Taxa Fixa: 40%</p>
-        
-        <input type="number" id="valor" placeholder="Quanto você precisa? (R$)">
-        <button class="gold-3d-relief" onclick="calcular()">Calcular Agora</button>
-
-        <div class="result" id="resultado"></div>
+    <div id="resultado" class="resultado">
+        <p id="texto-resultado"></p>
     </div>
 
-    <div style="margin-top: 40px; text-align: center;">
-        <h2 class="gold-3d-relief" style="font-size: 1.5rem;">Compro Ouro</h2>
-        <p>Pagamos o melhor valor do grama em Sorocaba.</p>
-    </div>
+    <button onclick="enviarWhatsApp()">Solicitar via WhatsApp</button>
+</div>
 
-    <script>
-        function calcular() {
-            const valor = document.getElementById('valor').value;
-            const resultadoDiv = document.getElementById('resultado');
-            
-            if(valor > 0) {
-                const total = valor * 1.40;
-                resultadoDiv.innerHTML = `
-                    <hr style="border: 0.5px solid #333">
-                    <p>Total a pagar: <strong>R$ ${total.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</strong></p>
-                    <p><small>*Sujeito a análise de crédito.</small></p>
-                `;
-            } else {
-                resultadoDiv.innerHTML = "Por favor, digite um valor válido.";
-            }
+<script>
+    function enviarWhatsApp() {
+        const valorInput = document.getElementById('valor').value;
+        const numeroWhatsApp = "55XXXXXXXXXXX"; // COLOQUE SEU NÚMERO AQUI (Ex: 5515999999999)
+
+        if (!valorInput || valorInput <= 0) {
+            alert("Por favor, insira um valor válido.");
+            return;
         }
-    </script>
+
+        const valor = parseFloat(valorInput);
+        const juros = 0.40; // 40%
+        const total = valor + (valor * juros);
+
+        const mensagem = `Olá! Gostaria de solicitar um empréstimo.%0A%0A` +
+                         `*Valor solicitado:* R$ ${valor.toFixed(2)}%0A` +
+                         `*Total com juros (40%):* R$ ${total.toFixed(2)}`;
+
+        // O segredo do funcionamento está nesta URL formatada
+        const url = `https://wa.me/${numeroWhatsApp}?text=${mensagem}`;
+
+        // Abre em uma nova aba de forma segura
+        window.open(url, '_blank', 'noopener,noreferrer');
+    }
+</script>
 
 </body>
 </html>
